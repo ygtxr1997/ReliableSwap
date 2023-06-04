@@ -46,12 +46,12 @@ During face swapping training, the re-construction task (used when $X_{\rm{t}}=X
 ![Tab2](./assets/Tab2.png)
 
 We first use real images $C_{\rm{a}}$ and $C_{\rm{b}}$ to synthesize fake images $C_{\rm{ab}}$ and $C_{\rm{ba}}$.
-This synthesizing stage preserves the true source identity based on Multi-Band Blending.
+This synthesizing stage preserves the **true source identity and target attributes** based on Face Reenactment, Multi-Band Blending, and Face Reshaping.
 
 ![Fig2](./assets/Fig2.png)
 
 Then based on the **cycle relationship**, for face swapping training stage, we use *fake* images as inputs while *real* images as pixel-level supervisons $\Gamma$, keeping the output domain close to the *real* and natural distribution and solving the non-supervision issue.
-In this way, the trainable face swapping network is guided to generate identity-consistency swapping results.
+In this way, the trainable face swapping network is guided to generate **source identity-consistency** swapping results, while also keeping **target attributes**.
 
 
 More details can be found in our [project]() page.
