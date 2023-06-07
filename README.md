@@ -45,7 +45,9 @@ During face swapping training, the re-construction task (used when $X_{\rm{t}}=X
 
 ![Fig4](./assets/Fig4.png)
 
+<div align="center">
 <img src="./assets/Tab2.png" width="50%">
+</div>
 
 We first use real images $C_{\rm{a}}$ and $C_{\rm{b}}$ to synthesize fake images $C_{\rm{ab}}$ and $C_{\rm{ba}}$.
 This synthesizing stage preserves the **true source identity and target attributes** based on Face Reenactment, Multi-Band Blending, and Face Reshaping.
