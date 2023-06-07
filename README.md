@@ -1,6 +1,8 @@
 # ReliableSwap: Boosting General Face Swapping Via Reliable Supervision
 
-[ArXiv](https://arxiv.org/abs/4937694) | [Project Page](https://reliable-swap.github.io/)
+<a href='https://arxiv.org/abs/4937694'><img src='https://img.shields.io/badge/ArXiv-PDF-red'></a> &nbsp; 
+<a href='https://reliable-swap.github.io/'><img src='https://img.shields.io/badge/Project-Page-Green'></a> &nbsp; 
+[![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/ygtxr1997/ReliableSwap_Demo) &nbsp; 
 
 <div>
 <span class="author-block">
@@ -72,8 +74,5 @@ TBD
 ### 📢 Disclaimer
 
 This is not an official product of Tencent. This repository can only be used for personal/research/non-commercial purposes.
-
-LOGO: color and font suggestion: [ChatGPT](ai.com), logo font：[Montserrat Alternates
-](https://fonts.google.com/specimen/Montserrat+Alternates?preview.text=SadTalker&preview.text_type=custom&query=mont).
 
 Free free to contact us if you feel uncomfortable.
