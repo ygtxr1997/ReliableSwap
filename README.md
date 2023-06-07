@@ -1,6 +1,6 @@
 # ReliableSwap: Boosting General Face Swapping Via Reliable Supervision
 
-[ArXiv]() | [Project Page]()
+[ArXiv](https://arxiv.org/abs/4937694) | [Project Page](https://reliable-swap.github.io/)
 
 <div>
 <span class="author-block">
@@ -25,11 +25,11 @@
 </div>
 <br>
 
-**TL;DR: A general face swapping training framework that:**
+**TL;DR: A general face swapping framework that:**
 
-✅ solves no-guidance problems <br>
-✅ enhances source identity preservation <br>
-✅ is orthogonal and compatiable with existing methods <br>
+🎯 solves no image-level guidance <br>
+👩‍❤️‍👩 enhances source identity preservation <br>
+♾️ is orthogonal and compatiable with existing methods <br>
 
 ![Fig1](./assets/Fig1.png)
 
@@ -54,7 +54,7 @@ Then based on the **cycle relationship**, for face swapping training stage, we u
 In this way, the trainable face swapping network is guided to generate **source identity-consistency** swapping results, while also keeping **target attributes**.
 
 
-More details can be found in our [project]() page.
+More details can be found in our [project](https://reliable-swap.github.io/) page.
 
 
 ### TODO
@@ -62,11 +62,18 @@ More details can be found in our [project]() page.
 - [ ] release code
 - [ ] extending to $512^2$ resolution
 
-### BibTex
 
+### BibTex
 
 ```tex
 TBD
 ```
 
+### 📢 Disclaimer
 
+This is not an official product of Tencent. This repository can only be used for personal/research/non-commercial purposes.
+
+LOGO: color and font suggestion: [ChatGPT](ai.com), logo font：[Montserrat Alternates
+](https://fonts.google.com/specimen/Montserrat+Alternates?preview.text=SadTalker&preview.text_type=custom&query=mont).
+
+Free free to contact us if you feel uncomfortable.
