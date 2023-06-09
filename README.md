@@ -1,6 +1,6 @@
 # ReliableSwap: Boosting General Face Swapping Via Reliable Supervision
 
-<a href='https://arxiv.org/abs/4937694'><img src='https://img.shields.io/badge/ArXiv-PDF-red'></a> &nbsp; 
+<a href='https://arxiv.org/abs/2306.05356'><img src='https://img.shields.io/badge/ArXiv-PDF-red'></a> &nbsp; 
 <a href='https://reliable-swap.github.io/'><img src='https://img.shields.io/badge/Project-Page-Green'></a> &nbsp; 
 [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/ygtxr1997/ReliableSwap_Demo) &nbsp; 
 
