@@ -70,7 +70,12 @@ More details can be found in our [project](https://reliable-swap.github.io/) pag
 ### BibTex
 
 ```tex
-TBD
+@article{yuan2023reliableswap,
+    title={ReliableSwap: Boosting General Face Swapping Via Reliable Supervision},
+    author={Yuan, Ge and Li, Maomao and Zhang, Yong and Zheng, Huicheng},
+    journal={arXiv preprint arXiv:2306.05356},
+    year={2023}
+}
 ```
 
 ### 📢 Disclaimer
