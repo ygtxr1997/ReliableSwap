@@ -1,0 +1,8 @@
+Pillow, 7.0.0, HPND
+numpy, 1.18.1, BSD
+protobuf, 3.11.3, "3-Clause BSD License"
+setuptools, 20.7.0, MIT
+six, 1.14.0, MIT
+tensorboardX, 2.0, MIT
+torch, 1.4.0, "New BSD"
+torchvision, 0.5.0, BSD
