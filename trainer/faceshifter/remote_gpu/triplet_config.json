@@ -1,0 +1,10 @@
+{
+    "Token": "lkT7GKAUxno71UfWMmj0Sw",
+    "business_flag": "TEG_AILab_CVC_chongqing",
+    "model_local_file_path": "/apdcephfs_cq2/share_1290939/gavinyuan/code/FaceSwapping/trainer/faceshifter/remote_gpu/occupy",
+    "host_num": 1,
+    "host_gpu_num": 1,
+    "image_full_name": "mirrors.tencent.com/gavinyuan/faceswap:1.8.ampere",
+    "GPUName": "A100",
+    "priority_level": "LOW",  "elastic_level": 0
+}

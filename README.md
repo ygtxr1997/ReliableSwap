@@ -35,6 +35,10 @@
 
 ![Fig1](./assets/Fig1.png)
 
+### Updates
+
+* **2023/06/25:** Code released!
+
 ### What Problems We Solve
 
 ![Fig3](./assets/Fig3.png)
@@ -61,9 +65,16 @@ In this way, the trainable face swapping network is guided to generate **source 
 More details can be found in our [project](https://reliable-swap.github.io/) page.
 
 
+### Usage
+
+1. [Environment Preparation](./environment_preparation.md)
+2. [Training](./training.md)
+3. [Testing](./testing.md)
+4. [Constructing Naive/Cycle Triplets by Yourself (Optional)](./supervision/readme.md)
+
 ### TODO
 
-- [ ] release code
+- [x] release code
 - [ ] extending to $512^2$ resolution
 
 

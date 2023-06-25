@@ -1,4 +1,4 @@
-# Triplet Rotational Group Synthesizer
+# 4. Triplet Rotational Group Synthesizer
 
 ## Usage
 
@@ -6,8 +6,6 @@
 
 The modules `supervision/parsing/inplace_abn` and `supervison/restoration/neurralgym` needs to be setup
 and installed first.
-If you are using our docker images: [mirrors.tencent.com/gavinyuan/faceswap:[tag]](),
-the subsequent `bash ./env_setup.sh` can be skipped.
 
 On NVIDIA Tesla GPU architecture (e.g. Tesla V100), run:
 ```shell
@@ -32,47 +30,36 @@ $> [GPU environment OK!]
 
 ### Step 2. Download pretrained weights
 
-All weights files can be found in [https://drive.weixin.qq.com/s?k=AJEAIQdfAAoGtZsqxL](
-https://drive.weixin.qq.com/s?k=AJEAIQdfAAoGtZsqxL).
+All weights files can be found in [weights/third_party (code:ygss)](https://pan.baidu.com/s/1jtGYuYEhgzTOeXm1Aed_NA).
 
 #### 2.1 LIA (from [LIA GitHub](https://wyhsirius.github.io/LIA-project/))
 
 ```shell
-cd ./lia_weights/
-cp -r ./checkpoints/ FaceSwapping/supervision/reenactment/LIA/
-cd ..
+cp -r weights/third_party/LIA ReliableSwap/supervision/reenactment/LIA/
 ```
 
 #### 2.2 DeepFill_V2 (from [DeepFill_V2 GitHub](https://github.com/JiahuiYu/generative_inpainting/tree/v2.0.0))
 
 ```shell
-cd ./deepfillv2_weights/
-cp -r ./weights/ FaceSwapping/supervision/restoration/DeepFill_V2/
-cd ..
+cp -r weights/third_party/DeepFill_V2 ReliableSwap/supervision/restoration/DeepFill_V2/
 ```
 
 #### 2.3 GPEN (from [GPEN GitHub](https://github.com/yangxy/GPEN))
 
 ```shell
-cd ./gpen_weights/
-cp -r ./weights/ FaceSwapping/supervision/restoration/GPEN/
-cd ..
+cp -r weights/third_party/GPEN ReliableSwap/supervision/restoration/GPEN/
 ```
 
 #### 2.4 DML_CSR (from [DML_CSR GitHub](https://github.com/deepinsight/insightface/tree/master/parsing/dml_csr))
 
 ```shell
-cd ./dmlcsr_weights/
-cp -r ./weights/ FaceSwapping/supervision/parsing/dml_csr/
-cd ..
+cp -r weights/third_party/DML_CSR ReliableSwap/supervision/parsing/dml_csr/
 ```
 
 #### 2.5 faceiqa (from [SER_FIQ GitHub](https://github.com/pterhoer/FaceImageQuality))
 
 ```shell
-cd ./faceiqa_weights/
-cp -r ./model/ FaceSwapping/modules/third_party/faceiqa/insightface/
-cd ..
+cp -r weights/third_party/faceiqa/ ReliableSwap/modules/third_party/faceiqa/
 ```
 
 ### Step 3. Running

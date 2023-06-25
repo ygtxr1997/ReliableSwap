@@ -1,0 +1,29 @@
+# Training & Validation
+dataset:
+  train_dataset: 'image_512_quality'  # 'image_512_quality', 'triplet_0_100000', 'triplet_lia_0_100000'
+  val_dataset: 'image_512_quality'
+  triplet_ratio: 100
+loss:
+  realism:
+    train:
+      rec: 10.
+      wfm: 10.
+    val:
+      rec: 10.
+      wfm: 10.
+  triplet:  # only works when 'triplet' in train_dataset
+    rec: 10.
+    rec_code: '0,0,0,0,1,1'
+    wfm: 10.
+  sid:
+    id: 30.
+    mouth: 0.1
+mouth_net:
+  use: True
+  feature_dim: 128
+  crop_param:  # (w1, h1, w2, h2) of PIL.Image
+    - 28
+    - 56
+    - 84
+    - 112
+  weight_path: "../../modules/third_party/arcface/weights/mouth_net_28_56_84_112.pth"

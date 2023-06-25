@@ -1,0 +1,20 @@
+MODE: 
+  RANDOCC: True    # FALSE MEANS NATOCC
+
+SOURCE_DATASET:
+  IMG_DIR: "./dataset/CelebAMask-HQ-WO-Train_img/"
+  MASK_DIR: "./dataset/CelebAMask-HQ-WO-Train_mask/"
+
+OCCLUDER_DATASET:
+  IMG_DIR: "./dataset/"
+  MASK_DIR: "./dataset/"
+
+OUTPUT_PATH: "./Result/RandOcc/"
+
+#whether to generate mask of occlusion( for RainNet)
+OCCLUSION_MASK: False
+
+AUGMENTATION:
+  SOT: False
+  ROTATE_AROUND_CENTER: False
+
