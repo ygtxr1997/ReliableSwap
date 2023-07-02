@@ -31,7 +31,7 @@
 
 🎯 solves no image-level guidance <br>
 👩‍❤️‍👩 enhances source identity preservation <br>
-♾️ is orthogonal and compatiable with existing methods <br>
+♾️ is orthogonal and compatible with existing methods <br>
 
 ![Fig1](./assets/Fig1.png)
 
