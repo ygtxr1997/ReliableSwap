@@ -78,6 +78,11 @@ class Trick(object):
         img_np = self.gpen_model.image_infer(img_np)
         return img_np
 
+    def finetune_hair(self, i_t: torch.Tensor, i_r: torch.Tensor):
+        target_hair_mask = self.get_any_mask(i_t, par=[0, 17])
+        target_hair_mask = self.smooth_mask(target_hair_mask)
+        return target_hair_mask * i_t + (target_hair_mask * (-1) + 1) * i_r
+
     def finetune_mouth(self, i_s, i_t, i_r):
         if self.mouth_helper is None:
             self.load_mouth_helper()
@@ -99,7 +104,7 @@ class Trick(object):
     def load_mouth_helper(self):
         from inference.ffplus.eval import EvaluatorFaceShifter
         mouth_helper_pl = EvaluatorFaceShifter(
-            load_path="../../weights/reliableswap_weights/ckpt/triplet10w_34/epoch=13-step=737999.ckpt",
+            load_path=make_abs_path("../../pretrained/reliableswap_weights/ckpt/triplet10w_34/epoch=13-step=737999.ckpt"),
             pt_path=make_abs_path("../ffplus/extracted_ckpt/G_t34_helper_post.pth"),
             benchmark=None,
             demo_folder=None,
@@ -145,7 +150,7 @@ vgg_std = torch.tensor([[[0.229]], [[0.224]], [[0.225]]],
 def load_bisenet():
     bisenet_model = BiSeNet(n_classes=19)
     bisenet_model.load_state_dict(
-        torch.load(make_abs_path("/gavin/datasets/hanbang/79999_iter.pth",), map_location="cpu")
+        torch.load(make_abs_path("../../pretrained/third_party/bisenet/79999_iter.pth",), map_location="cpu")
     )
     bisenet_model.eval()
     bisenet_model = bisenet_model.cuda(0)
@@ -155,3 +160,4 @@ def load_bisenet():
     return bisenet_model, smooth_mask
 
 global_bisenet, global_smooth_mask = load_bisenet()
+global_trick = Trick()

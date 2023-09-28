@@ -1,0 +1,12 @@
+INPUT:
+  SIZE: [160, 160]
+  BBOX: 'P2'
+
+BACKBONE:
+  ARCH: 'mobilenetv2'
+  
+HEATMAP:
+  IN_CHANNEL: 152
+  PROJ_CHANNEL: 152
+  OUT_CHANNEL: 98
+  TOPK: 9

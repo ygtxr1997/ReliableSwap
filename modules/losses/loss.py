@@ -5,8 +5,8 @@ import torch.nn.functional as F
 from torchvision.models import vgg19
 
 from modules.third_party.arcface.iresnet import iresnet100
-from modules.third_party.tdmm.resnet import ReconNetWrapper
-from modules.third_party.tdmm.bfm import ParametricFaceModel
+# from modules.third_party.tdmm.resnet import ReconNetWrapper
+# from modules.third_party.tdmm.bfm import ParametricFaceModel
 from modules.third_party.vgg.modules.vgg import VGG_Model
 from modules.third_party.bisenet.bisenet import BiSeNet
 
@@ -234,7 +234,7 @@ class RealismLoss(nn.Module):
         vgg = vgg19(pretrained=False)
         vgg.load_state_dict(
             torch.load(
-                "/gavin/datasets/hanbang/vgg19-dcbb9e9d.pth",
+                make_abs_path("../../pretrained/third_party/VGG/vgg19-dcbb9e9d.pth"),
                 map_location="cpu",
             )
         )

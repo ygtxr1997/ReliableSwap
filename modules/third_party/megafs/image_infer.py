@@ -63,7 +63,7 @@ class MegaFSImageInfer(torch.nn.Module):
         self.encoder = HieRFE(resnet50(False), num_latents=latent_split, depth=50).cuda()
         self.swapper = FaceTransferModule(num_blocks=num_blocks, swap_indice=swap_indice, num_latents=num_latents,
                                           typ=self.swap_type).cuda()
-        ckpt_e = make_abs_path("./inference/checkpoint/{}_final.pth".format(self.swap_type))
+        ckpt_e = make_abs_path("../../../pretrained/third_party/MegaFS/inference/checkpoint/{}_final.pth".format(self.swap_type))
         if ckpt_e is not None:
             print("load encoder & swapper:", ckpt_e)
             ckpts = torch.load(ckpt_e, map_location=torch.device("cpu"))
@@ -72,7 +72,7 @@ class MegaFSImageInfer(torch.nn.Module):
             del ckpts
 
         self.generator = Generator(self.size, 512, 8, channel_multiplier=2).cuda()
-        ckpt_f = make_abs_path("./inference/checkpoint/stylegan2-ffhq-config-f.pth")
+        ckpt_f = make_abs_path("../../../pretrained/third_party/MegaFS//inference/checkpoint/stylegan2-ffhq-config-f.pth")
         if ckpt_f is not None:
             print("load generator:", ckpt_f)
             ckpts = torch.load(ckpt_f, map_location=torch.device("cpu"))
@@ -91,7 +91,7 @@ class MegaFSImageInfer(torch.nn.Module):
         from bisenet.bisenet import BiSeNet
         bisenet_model = BiSeNet(n_classes=19)
         bisenet_model.load_state_dict(
-            torch.load("/gavin/datasets/hanbang/79999_iter.pth", map_location="cpu")
+            torch.load("../../pretrained/third_party/bisenet/79999_iter.pth", map_location="cpu")
         )
         bisenet_model.eval()
         self.bisenet_model = bisenet_model.cuda(0)

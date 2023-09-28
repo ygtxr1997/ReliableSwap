@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+import os
 import kornia
 import wandb
 import lpips
@@ -9,12 +10,14 @@ import lpips
 from torchvision.models import vgg19
 
 from modules.third_party.arcface import iresnet100
-from modules.third_party.tdmm.resnet import ReconNetWrapper
-from modules.third_party.tdmm.bfm import ParametricFaceModel
+# from modules.third_party.tdmm.resnet import ReconNetWrapper
+# from modules.third_party.tdmm.bfm import ParametricFaceModel
 from modules.third_party.bisenet.bisenet import BiSeNet
 from modules.third_party.vgg.modules.vgg import VGG_Model
 from modules.losses.loss import CXLoss
 
+
+make_abs_path = lambda fn: os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), fn))
 
 
 class MultiScaleGANLoss(nn.Module):
@@ -183,7 +186,7 @@ class RealismLoss(nn.Module):
         vgg = vgg19(pretrained=False)
         vgg.load_state_dict(
             torch.load(
-                "/gavin/datasets/hanbang/vgg19-dcbb9e9d.pth",
+                make_abs_path("../../pretrained/third_party/VGG/vgg19-dcbb9e9d.pth"),
                 map_location="cpu",
             )
         )
@@ -195,7 +198,7 @@ class RealismLoss(nn.Module):
         self.bisenet = BiSeNet(19)
         self.bisenet.load_state_dict(
             torch.load(
-                "/gavin/datasets/hanbang/79999_iter.pth",
+                make_abs_path("../../pretrained/third_party/bisenet/79999_iter.pth"),
                 map_location="cpu",
             )
         )
@@ -567,7 +570,7 @@ class GLoss(nn.Module):
                  in_size: int = 256,
                  ):
         super(GLoss, self).__init__()
-        self.face_model = ParametricFaceModel()
+        # self.face_model = ParametricFaceModel()
         self.in_size = in_size
 
         ''' MouthNet '''

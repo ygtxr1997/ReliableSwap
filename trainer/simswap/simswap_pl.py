@@ -55,8 +55,8 @@ class SimSwapPL(pl.LightningModule):
 
         ''' Face recognition net '''
         if not use_official_arc:
-            netArc_pth = "/apdcephfs_cq2/share_1290939/gavinyuan/code/FaceShifter/faceswap/faceswap/" \
-                         "checkpoints/face_id/ms1mv3_arcface_r100_fp16_backbone.pth"  # opt.Arc_path
+            netArc_pth = make_abs_path("../../pretrained/third_party/arcface/ms1mv3_arcface_r100_fp16/backbone.pth")
+            # opt.Arc_path,
             self.netArc = iresnet100(pretrained=False, fp16=False)
             self.netArc.load_state_dict(torch.load(netArc_pth, map_location="cpu"))
             self.netArc.eval()
@@ -69,6 +69,7 @@ class SimSwapPL(pl.LightningModule):
             import sys
             sys.path.insert(0, make_abs_path("./"))
             netArc_ckpt = make_abs_path("./arcface_model/arcface_checkpoint.tar")
+            # [warning] old version SimSwap requires the weights to be copied under SimSwap root folder (ln is not ok)
             netArc_checkpoint = torch.load(netArc_ckpt, map_location=torch.device("cpu"))
             self.netArc = netArc_checkpoint['model'].module
             self.netArc = self.netArc.cuda()

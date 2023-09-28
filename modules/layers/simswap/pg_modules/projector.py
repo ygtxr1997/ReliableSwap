@@ -1,7 +1,11 @@
+import os
 import torch
 import torch.nn as nn
 import timm
 from modules.layers.simswap.pg_modules.blocks import FeatureFusionBlock
+
+
+make_abs_path = lambda fn: os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), fn))
 
 
 def _make_scratch_ccm(scratch, in_channels, cout, expand=False):
@@ -61,8 +65,8 @@ def _make_projector(im_res, cout, proj_type, expand=False):
 
     ### Build pretrained feature network
     model = timm.create_model('tf_efficientnet_lite0', pretrained=False,
-                              checkpoint_path='/gavin/code/FaceSwapping/modules/third_party/efficientnet/'
-                                              'tf_efficientnet_lite0-0aa007d2.pth')
+                              checkpoint_path=make_abs_path('../../../../pretrained/third_party/SimSwap/'
+                                              'tf_efficientnet_lite0-0aa007d2.pth'))
     pretrained = _make_efficientnet(model)
 
     # determine resolution of feature maps, this is later used to calculate the number

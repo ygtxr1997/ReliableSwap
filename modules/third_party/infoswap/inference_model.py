@@ -51,9 +51,9 @@ class InfoSwapInference(torch.nn.Module):
 
     def load_model(self):
         ROOT = {
-            'smooth': {'root': make_abs_path('weights/checkpoints_512/w_kernel_smooth'),
+            'smooth': {'root': make_abs_path('../../../pretrained/third_party/InfoSwap/weights/checkpoints_512/w_kernel_smooth'),
                        'path': 'ckpt_ks_*.pth'},
-            'no_smooth': {'root': make_abs_path('weights/checkpoints_512/wo_kernel_smooth'),
+            'no_smooth': {'root': make_abs_path('../../../pretrained/third_party/InfoSwap/weights/checkpoints_512/wo_kernel_smooth'),
                           'path': 'ckpt_*.pth'}
         }
 
@@ -68,7 +68,7 @@ class InfoSwapInference(torch.nn.Module):
         pathI = path.replace('*', 'I')
 
         encoder = Backbone128(50, 0.6, 'ir_se').eval().to(device)
-        state_dict = torch.load(make_abs_path('weights/model_128_ir_se50.pth'),
+        state_dict = torch.load(make_abs_path('../../../pretrained/third_party/InfoSwap/weights/model_128_ir_se50.pth'),
                                 map_location=device)
         encoder.load_state_dict(state_dict, strict=True)
 

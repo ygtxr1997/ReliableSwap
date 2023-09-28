@@ -1,3 +1,4 @@
+import os
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -8,6 +9,9 @@ from torchvision.models import vgg19
 
 from modules.third_party.arcface import iresnet100
 from modules.third_party.vgg.modules.vgg import VGG_Model
+
+
+make_abs_path = lambda fn: os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), fn))
 
 
 class SIDLoss(nn.Module):
@@ -78,7 +82,7 @@ class RealismLoss(nn.Module):
         vgg = vgg19(pretrained=False)
         vgg.load_state_dict(
             torch.load(
-                "/gavin/datasets/hanbang/vgg19-dcbb9e9d.pth",
+                make_abs_path("../../pretrained/third_party/VGG/vgg19-dcbb9e9d.pth"),
                 map_location="cpu",
             )
         )

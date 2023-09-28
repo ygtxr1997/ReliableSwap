@@ -4,6 +4,7 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader
 import pytorch_lightning as pl
 
+import os
 import numpy as np
 import kornia
 import wandb
@@ -15,6 +16,9 @@ from modules.dataset.dataloader import PickleTrainDataset, PickleValDataset
 from modules.dataset.dataloader import BatchTrainDataset, BatchValDataset
 from modules.dataset.dataloader import TripletTrainDataset
 from modules.dataset.dataloader import VanillaAndTripletDataset
+
+
+make_abs_path = lambda fn: os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), fn))
 
 
 class FaceshifterPL(pl.LightningModule):
@@ -34,7 +38,7 @@ class FaceshifterPL(pl.LightningModule):
         self.in_size = self.config['model']['in_size']
 
         self.generator = FSGenerator(
-            "/apdcephfs_cq2/share_1290939/gavinyuan/code/FaceShifter/faceswap/faceswap/checkpoints/face_id/ms1mv3_arcface_r100_fp16_backbone.pth",
+            make_abs_path("../../pretrained/third_party/arcface/ms1mv3_arcface_r100_fp16/backbone.pth"),
             mouth_net_param=self.config.get('mouth_net'),
             in_size=self.in_size,
             finetune=finetune,
@@ -43,7 +47,7 @@ class FaceshifterPL(pl.LightningModule):
             3, n_layers=n_layers, num_D=num_D, getIntermFeat=True
         )
         self.g_loss = GLoss(
-            "/apdcephfs_cq2/share_1290939/gavinyuan/code/FaceShifter/faceswap/faceswap/checkpoints/face_id/ms1mv3_arcface_r100_fp16_backbone.pth",
+            make_abs_path("../../pretrained/third_party/arcface/ms1mv3_arcface_r100_fp16/backbone.pth"),
             n_layers=n_layers,
             num_D=num_D,
             loss_config=self.config.get('loss'),
@@ -417,7 +421,7 @@ class FaceshifterPL512(pl.LightningModule):
         self.in_size = self.config['model']['in_size']
 
         self.generator = FSGenerator(
-            "/apdcephfs_cq2/share_1290939/gavinyuan/code/FaceShifter/faceswap/faceswap/checkpoints/face_id/ms1mv3_arcface_r100_fp16_backbone.pth",
+            make_abs_path("../../pretrained/third_party/arcface/ms1mv3_arcface_r100_fp16/backbone.pth"),
             mouth_net_param=self.config.get('mouth_net'),
             in_size=self.in_size,
             finetune=finetune,
@@ -428,7 +432,7 @@ class FaceshifterPL512(pl.LightningModule):
             finetune=finetune
         )
         self.g_loss = GLoss(
-            "/apdcephfs_cq2/share_1290939/gavinyuan/code/FaceShifter/faceswap/faceswap/checkpoints/face_id/ms1mv3_arcface_r100_fp16_backbone.pth",
+            make_abs_path("../../pretrained/third_party/arcface/ms1mv3_arcface_r100_fp16/backbone.pth"),
             n_layers=n_layers,
             num_D=num_D,
             loss_config=self.config.get('loss'),

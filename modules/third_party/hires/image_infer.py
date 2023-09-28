@@ -77,7 +77,7 @@ class HiResImageInfer(torch.nn.Module):
         generator = torch.nn.parallel.DataParallel(generator)
         bald_model = torch.nn.parallel.DataParallel(bald_model)
 
-        hires_ckpt = make_abs_path('./weights/CELEBA-HQ-1024.pt')
+        hires_ckpt = make_abs_path('../../../pretrained/third_party/HiRes/weights/CELEBA-HQ-1024.pt')
         hires_weights = torch.load(hires_ckpt,  map_location=torch.device('cpu'))
 
         encoder_lmk.load_state_dict(hires_weights["encoder_lmk"])
@@ -93,10 +93,10 @@ class HiResImageInfer(torch.nn.Module):
         self.bald_model = bald_model
 
     def load_psp(self):
-        from psp.models.psp import pSp
+        from hires.models.psp import pSp
         psp_opts = argparse.ArgumentParser
         psp_opts.encoder_type = 'GradualStyleEncoder'
-        psp_opts.checkpoint_path = make_abs_path('./weights/psp_ffhq_encode.pt')
+        psp_opts.checkpoint_path = make_abs_path('../../../pretrained/third_party/HiRes/weights/psp_ffhq_encode.pt')
         psp_opts.start_from_latent_avg = True
         psp_opts.stylegan_size = 1024
         psp_opts.input_nc = 3
@@ -106,8 +106,8 @@ class HiResImageInfer(torch.nn.Module):
         self.psp_model = psp_model.cuda(0)
 
     def load_h3r(self):
-        from h3r.torchalign import FacialLandmarkDetector
-        h3r_folder = make_abs_path('/gavin/code/FaceSwapping/modules/third_party/h3r/models/lapa/hrnet18_256x256_p2')
+        from hires.h3r.torchalign import FacialLandmarkDetector
+        h3r_folder = make_abs_path('../../../pretrained/third_party/h3r/models/lapa/hrnet18_256x256_p2')
         h3r_model = FacialLandmarkDetector(root=h3r_folder)
         h3r_model.eval()
         self.h3r_model = h3r_model.cuda(0)
@@ -117,7 +117,7 @@ class HiResImageInfer(torch.nn.Module):
         bisenet_model = BiSeNet(n_classes=19)
         bisenet_model.load_state_dict(
             torch.load(
-                "/gavin/datasets/hanbang/79999_iter.pth",
+                "../../pretrained/third_party/bisenet/79999_iter.pth",
                 map_location="cpu",
             )
         )
