@@ -72,7 +72,7 @@ class MegaFSImageInfer(torch.nn.Module):
             del ckpts
 
         self.generator = Generator(self.size, 512, 8, channel_multiplier=2).cuda()
-        ckpt_f = make_abs_path("../../../pretrained/third_party/MegaFS//inference/checkpoint/stylegan2-ffhq-config-f.pth")
+        ckpt_f = make_abs_path("../../../pretrained/third_party/MegaFS/inference/checkpoint/stylegan2-ffhq-config-f.pth")
         if ckpt_f is not None:
             print("load generator:", ckpt_f)
             ckpts = torch.load(ckpt_f, map_location=torch.device("cpu"))
@@ -91,7 +91,7 @@ class MegaFSImageInfer(torch.nn.Module):
         from bisenet.bisenet import BiSeNet
         bisenet_model = BiSeNet(n_classes=19)
         bisenet_model.load_state_dict(
-            torch.load("../../pretrained/third_party/bisenet/79999_iter.pth", map_location="cpu")
+            torch.load(make_abs_path("../../../pretrained/third_party/bisenet/79999_iter.pth"), map_location="cpu")
         )
         bisenet_model.eval()
         self.bisenet_model = bisenet_model.cuda(0)
@@ -142,7 +142,7 @@ class MegaFSImageInfer(torch.nn.Module):
         return np.stack([face_map, mouth_map, hair_map], axis=2)
 
     @staticmethod
-    def save_tensor_to_img(tensor: torch.Tensor, path: str, scale=256):
+    def save_tensor_to_img(tensor: torch.Tensor, path: str, scale=255):
         tensor = tensor.permute(0, 2, 3, 1)[0]  # in [0,1]
         tensor = tensor * scale
         tensor_np = tensor.cpu().numpy().astype(np.uint8)

@@ -79,8 +79,8 @@ class pSp(nn.Module):
 
         input_is_latent = not input_code
 
-        print (codes.shape)
-        images, result_latent = self.decoder([codes],
+        # print(codes.shape)
+        images, feat_outs, result_latent = self.decoder([codes],
                                              input_is_latent=input_is_latent,
                                              randomize_noise=randomize_noise,
                                              return_latents=return_latents)

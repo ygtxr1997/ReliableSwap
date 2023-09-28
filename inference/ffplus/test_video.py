@@ -284,7 +284,7 @@ class VideoInferBase(pl.LightningModule, ABC):
                 target_tensor = trans(target_crop).cuda().unsqueeze(0)  # in [-1,1]
                 target_facial_mask = self._get_any_mask(target_tensor,
                                                         par=[1,2,3,4,5,6,10,11,12,13]).squeeze()  # in [0,1]
-                target_facial_mask = target_facial_mask.cpu().numpy().astype(np.float)
+                target_facial_mask = target_facial_mask.cpu().numpy().astype(np.float32)
                 target_facial_mask = self._finetune_mask(target_facial_mask, target_lmks)  # in [0,1]
                 self.t_facial_masks.append(target_facial_mask)
 
@@ -396,7 +396,7 @@ class VideoInferBase(pl.LightningModule, ABC):
         blur_size = tuple(2 * j + 1 for j in kernel_size)
         facial_mask = cv2.GaussianBlur(facial_mask, blur_size, 0)
 
-        return facial_mask.astype(np.float) / 255
+        return facial_mask.astype(np.float32) / 255
 
     def test_epoch_end(self, outputs):
         t_crop_list = self.t_crop_frames

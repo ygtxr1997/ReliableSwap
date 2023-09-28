@@ -62,7 +62,7 @@ class HiResImageInfer(torch.nn.Module):
         print('[HiRes] model loaded.')
 
     def _load_hires(self, args):
-        device = 0
+        device = "cuda:0"
         encoder_lmk = GradualLandmarkEncoder(106 * 2).to(device)
         encoder_target = GPENEncoder(args.largest_size).to(device)
         generator = Generator(args.size, args.latent, args.n_mlp).to(device)
@@ -117,7 +117,7 @@ class HiResImageInfer(torch.nn.Module):
         bisenet_model = BiSeNet(n_classes=19)
         bisenet_model.load_state_dict(
             torch.load(
-                "../../pretrained/third_party/bisenet/79999_iter.pth",
+                make_abs_path("../../../pretrained/third_party/bisenet/79999_iter.pth"),
                 map_location="cpu",
             )
         )
@@ -230,7 +230,7 @@ class HiResImageInfer(torch.nn.Module):
         fusion_code = bald_model(fusion_code.view(fusion_code.size(0), -1), 2)
         fusion_code = fusion_code.view(t_frame_code.size())
 
-        source_feas = generator([fusion_code], input_is_latent=True, randomize_noise=False)
+        _, source_feas, _ = generator([fusion_code], input_is_latent=True, randomize_noise=False)
         target_feas = encoder_target(t_img)
 
         blend_img = decoder(source_feas, target_feas, t_mask)
@@ -275,7 +275,7 @@ class HiResImageInfer(torch.nn.Module):
         seg = seg.permute(0, 2, 3, 1)[0].cpu().numpy()
         t_mask = self._encode_segmentation_rgb(seg)
         t_mask = cv2.resize(t_mask, (1024, 1024))
-        t_mask = t_mask.transpose((2, 0, 1)).astype(np.float) / 255.0
+        t_mask = t_mask.transpose((2, 0, 1)).astype(np.float32) / 255.0
         t_mask = t_mask[0] + t_mask[1]
         t_mask = cv2.dilate(t_mask, np.ones((50, 50)), borderType=cv2.BORDER_CONSTANT, borderValue=0)
         t_mask = torch.FloatTensor(t_mask).cuda(0).unsqueeze(0)  # (1,1024,1024)
@@ -330,27 +330,31 @@ if __name__ == "__main__":
         # t_mask = t_mask.unsqueeze_(1).float()
 
         t_lmk_code = encoder_lmk(input_map)
+        print("t_lmk_code", t_lmk_code.shape)
 
         zero_latent = torch.zeros((args.batch, 18 - args.coarse, 512)).cuda()
         t_lmk_code = torch.cat([t_lmk_code, zero_latent], dim=1)
+        print("s_frame, t_lmk:", s_frame_code.shape, t_lmk_code.shape)
         fusion_code = s_frame_code + t_lmk_code
 
         fusion_code = torch.cat([fusion_code[:, :18 - args.coarse], t_frame_code[:, 18 - args.coarse:]], dim=1)
         fusion_code = bald_model(fusion_code.view(fusion_code.size(0), -1), 2)
         fusion_code = fusion_code.view(t_frame_code.size())
-        print(fusion_code.shape)
+        print("fusion", fusion_code.shape)
 
-        source_feas = generator([fusion_code], input_is_latent=True, randomize_noise=False)
+        _, source_feas, _ = generator([fusion_code], input_is_latent=True, randomize_noise=False)
         print(len(source_feas))
-        flops, params = thop.profile(generator, inputs=([fusion_code], True, False), verbose=False)
-        print('#Params=%.2fM, GFLOPS=%.2f' % (params / 1e6, flops / 1e9))
+        # flops, params = thop.profile(generator, inputs=([fusion_code], True, False), verbose=False)
+        # print('#Params=%.2fM, GFLOPS=%.2f' % (params / 1e6, flops / 1e9))
 
         target_feas = encoder_target(t_img)
-        flops, params = thop.profile(encoder_target, inputs=(t_img,), verbose=True, report_missing=True)
-        print('#Params=%.2fM, GFLOPS=%.2f' % (params / 1e6, flops / 1e9))
+        for fea in target_feas:
+            print("target", fea.shape)
+        # flops, params = thop.profile(encoder_target, inputs=(t_img,), verbose=True, report_missing=True)
+        # print('#Params=%.2fM, GFLOPS=%.2f' % (params / 1e6, flops / 1e9))
 
         blend_img = decoder(source_feas, target_feas, t_mask)
         print(blend_img.shape)
-        flops, params = thop.profile(decoder, inputs=(source_feas, target_feas, t_mask,), verbose=True)
-        print('#Params=%.2fM, GFLOPS=%.2f' % (params / 1e6, flops / 1e9))
+        # flops, params = thop.profile(decoder, inputs=(source_feas, target_feas, t_mask,), verbose=True)
+        # print('#Params=%.2fM, GFLOPS=%.2f' % (params / 1e6, flops / 1e9))
 

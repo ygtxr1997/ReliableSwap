@@ -544,8 +544,8 @@ class Generator(nn.Module):
 
         image = skip
 
-        # return image, fea_outs#, img_skips
-        return fea_outs#, img_skips
+        return image, fea_outs, latent#, img_skips
+        # return fea_outs#, img_skips
 
 
 
@@ -704,7 +704,6 @@ class Decoder(nn.Module):
 
         # for x in self.decoder:
         #     print (x)
-
 
         for i in range(self.log_size-2):
             mask = transforms.Resize(source_fea[i].size(2))(mask)

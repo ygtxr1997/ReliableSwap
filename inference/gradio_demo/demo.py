@@ -305,7 +305,7 @@ def process_video(
         ''' Finetune paste masks '''
         target_facial_mask = trick.get_any_mask(target,
                                                 par=[1, 2, 3, 4, 5, 6, 10, 11, 12, 13]).squeeze()  # in [0,1]
-        target_facial_mask = target_facial_mask.cpu().numpy().astype(np.float)
+        target_facial_mask = target_facial_mask.cpu().numpy().astype(np.float32)
         target_facial_mask = trick.finetune_mask(target_facial_mask, target_lmks)  # in [0,1]
         t_facial_masks.append(target_facial_mask)
         ''' Face swapping '''

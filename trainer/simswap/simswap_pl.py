@@ -71,7 +71,7 @@ class SimSwapPL(pl.LightningModule):
             netArc_ckpt = make_abs_path("./arcface_model/arcface_checkpoint.tar")
             # [warning] old version SimSwap requires the weights to be copied under SimSwap root folder (ln is not ok)
             netArc_checkpoint = torch.load(netArc_ckpt, map_location=torch.device("cpu"))
-            self.netArc = netArc_checkpoint['model'].module
+            self.netArc = netArc_checkpoint
             self.netArc = self.netArc.cuda()
             self.netArc.eval()
             self.netArc.requires_grad_(False)

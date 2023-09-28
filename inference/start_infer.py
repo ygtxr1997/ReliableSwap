@@ -43,7 +43,7 @@ if __name__ == "__main__":
     pl_tester = pl.Trainer(
         logger=False,
         gpus=1,
-        distributed_backend='dp',
+        strategy='dp',
         benchmark=True,
     )
     for tester in testers:

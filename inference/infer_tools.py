@@ -174,7 +174,7 @@ class SimSwapInfer(BaseModelInfer):
                                                      use_official_arc=self.use_official_arc)
         model.eval()
         model = model.cuda()
-        return model, net_arc, fixer_net_param
+        return model, net_arc, fixer_net, fixer_net_param
 
     @torch.no_grad()
     def infer_batch(self, i_s: torch.Tensor, i_t: torch.Tensor):
@@ -198,11 +198,11 @@ class SimSwapInfer(BaseModelInfer):
         ckpt_weight = torch.load(in_ckpt, map_location="cpu")
         net.load_state_dict(ckpt_weight["state_dict"], strict=False)
         net.eval()
-        torch.save(net.generator.state_dict(), out_pt)
+        torch.save(net.netG.state_dict(), out_pt)
         return net.netG, net.netArc, net.mouth_net
 
 
-class ReliableSwapSimSwapInfer(FaceShifterInfer):
+class ReliableSwapSimSwapInfer(SimSwapInfer):
     def __init__(self, in_ckpt: str, out_pt: str,
                  use_fixer: str = "mouth1",
                  **kwargs):
@@ -242,7 +242,7 @@ class HiResInfer(BaseModelInfer):
         source_pil = Image.fromarray(source_np)
         target_pil = Image.fromarray(target_np)
         i_r = self.model.image_infer(source_pil=source_pil,
-                                              target_pil=target_pil)
+                                     target_pil=target_pil)
         i_r = F.interpolate(i_r, size=256, mode="bilinear", align_corners=True)
         i_r = i_r.clamp(-1, 1)
         return i_r
@@ -257,15 +257,13 @@ class MegaFSInfer(BaseModelInfer):
         self.model = MegaFSImageInfer()
 
     def infer_batch(self, i_s: torch.Tensor, i_t: torch.Tensor) -> torch.Tensor:
-        i_s = (i_s + 1) * 127.5
-        i_t = (i_t + 1) * 127.5
-        source_np = i_s.permute(0, 2, 3, 1)[0].cpu().numpy().astype(np.uint8)
-        target_np = i_t.permute(0, 2, 3, 1)[0].cpu().numpy().astype(np.uint8)
-        source_pil = Image.fromarray(source_np)
-        target_pil = Image.fromarray(target_np)
-        i_r = self.model.image_infer(source_pil=source_pil,
-                                     target_pil=target_pil)
-        i_r = F.interpolate(i_r, size=256, mode="bilinear", align_corners=True)
+        i_s = F.interpolate(i_s, size=256, mode="bilinear", align_corners=True)
+        i_t = F.interpolate(i_t, size=256, mode="bilinear", align_corners=True)
+        i_r = self.model.image_infer(source_tensor=i_s,
+                                     target_tensor=i_t)
+        if torch.isnan(i_r).any():
+            print('NAN in i_r, will be set to 0.')
+            i_r = torch.where(torch.isnan(i_r), torch.full_like(i_r, 0.), i_r)
         i_r = i_r.clamp(-1, 1)
         return i_r
 
@@ -288,10 +286,15 @@ class TestIterator(pl.LightningModule):
             in_folder
         )
         os.makedirs(out_folder, exist_ok=True)
+        os.makedirs(os.path.join(out_folder, "source"), exist_ok=True)
+        os.makedirs(os.path.join(out_folder, "target"), exist_ok=True)
+        os.makedirs(os.path.join(out_folder, "result"), exist_ok=True)
 
         self.t_imgs = []
         self.s_imgs = []
         self.r_imgs = []
+
+        print(f"[TestIterator] successfully loaded model: {type(model_infer)}")
 
     def test_dataloader(self):
         return DataLoader(

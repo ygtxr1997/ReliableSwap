@@ -52,7 +52,7 @@ class Trick(object):
         blur_size = tuple(2 * j + 1 for j in kernel_size)
         facial_mask = cv2.GaussianBlur(facial_mask, blur_size, 0)
 
-        return facial_mask.astype(np.float) / 255
+        return facial_mask.astype(np.float32) / 255
 
     @staticmethod
     def smooth_mask(mask_tensor: torch.Tensor):
